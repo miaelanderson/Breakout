@@ -12,6 +12,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
+    
     var ball = SKShapeNode()
     var paddle = SKSpriteNode()
     var brick = SKSpriteNode()
@@ -60,6 +61,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         makePaddle()
         makeBrick()
     }
+    
     func kickBall() {
         ball.physicsBody?.isDynamic = true
         ball.physicsBody?.applyImpulse(CGVector(dx: 3, dy: 5))
@@ -98,6 +100,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody?.friction = 0
         // gravity is not a factor
         ball.physicsBody?.affectedByGravity = false
+        // bounces fully off of other objects
+        ball.physicsBody?.restitution = 1
         // does not slow down over time
         ball.physicsBody?.linearDamping = 0
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
@@ -107,7 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func makePaddle() {
         paddle.removeFromParent() // remove the paddle, if it exists
         paddle = SKSpriteNode(color: .white, size: CGSize(width: frame.width/4, height: 20))
-        paddle.position = CGPoint(x: frame.midX, y: frame.midY + 125)
+        paddle.position = CGPoint(x: frame.midX, y: frame.minY + 125)
         paddle.name = "paddle"
         paddle.physicsBody = SKPhysicsBody(rectangleOf: paddle.size)
         paddle.physicsBody?.isDynamic = false
