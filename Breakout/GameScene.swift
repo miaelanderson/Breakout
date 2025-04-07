@@ -68,8 +68,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         // ask each brick, "Is it you?"
         for brick in bricks {
-            if contact.bodyA.node?.name == "brick" ||
-                contact.bodyB.node?.name == "brick" {
+            if contact.bodyA.node == brick ||
+                contact.bodyB.node == brick {
                 score += 1
                 updateLabels()
                 if brick.color == .blue {
@@ -87,6 +87,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+    
+    
         if contact.bodyA.node?.name == "loseZone" ||
             contact.bodyB.node?.name == "loseZone" {
             lives -= 1
@@ -194,8 +196,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let count = Int(frame.width) / 55 // bricks per row
         let xOffset = (Int(frame.width) - (count * 55)) / 2 + Int(frame.minX) + 25
         let colors: [UIColor] = [.blue, .orange, .green]
-        for r in 0..<count {
-        let y = Int(frame.maxY) - 65
+        for r in 0..<3 {
+            let y = Int(frame.maxY) - 65 - (r * 25)
             for i in 0..<count {
                 let x = i * 55 + xOffset
                 makeBrick(x: x, y: y, color: colors[r])
